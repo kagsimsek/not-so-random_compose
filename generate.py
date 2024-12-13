@@ -4,7 +4,7 @@ import pandas as pd
 import pretty_midi
 
 # from training
-M = 50
+M = 30
 
 C_1 = 12
 C_2 = 9
@@ -77,17 +77,13 @@ def get_features(x1, x2, x3):
   dir_13 = is_ascending(x_11 + x_12 * 12, x_31 + x_32 * 12)
   dir_23 = is_ascending(x_21 + x_22 * 12, x_31 + x_32 * 12)
 
-  dur_12 = is_longer(x_13, x_23)
-  dur_13 = is_longer(x_13, x_33)
-  dur_23 = is_longer(x_23, x_33)
-
   c_12 = are_consonant(x_11 + x_12 * 12, x_21 + x_22 * 12)
   c_13 = are_consonant(x_11 + x_12 * 12, x_31 + x_32 * 12)
   c_23 = are_consonant(x_21 + x_22 * 12, x_31 + x_32 * 12)
 
-  return x_11, x_12, x_13, x_21, x_22, x_23, x_31, x_32, x_33, d_12, d_13, d_23, k_1, k_2, k_3, dir_12, dir_13, dir_23, dur_12, dur_13, dur_23, c_12, c_13, c_23
+  return x_11, x_12, x_13, x_21, x_22, x_23, x_31, x_32, x_33, d_12, d_13, d_23, k_1, k_2, k_3, dir_12, dir_13, dir_23, c_12, c_13, c_23
 
-dt_sample = pd.read_csv('./data/processed/0.csv', header = None)
+dt_sample = pd.read_csv('./data/processed/sample.csv', header = None)
 P_sample = len(dt_sample)
 
 def generate(x):
@@ -96,8 +92,8 @@ def generate(x):
   probs_3 = np.exp(model(x, Theta_3, M)) / np.sum(np.exp(model(x, Theta_3, M)))
 
   top_two_indices_1 = np.argsort(probs_1)[-2:]
-  top_two_indices_2 = np.argsort(probs_2)[-2:]
-  top_two_indices_3 = np.argsort(probs_3)[-2:]
+  top_two_indices_2 = np.argsort(probs_2)[-1:]
+  top_two_indices_3 = np.argsort(probs_3)[-1:]
 
   top_two_probs_1 = probs_1[top_two_indices_1]
   top_two_probs_2 = probs_2[top_two_indices_2]

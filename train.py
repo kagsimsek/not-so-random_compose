@@ -187,16 +187,17 @@ def summary(Theta):
     percent_error[m] = round(float(N_mis[m]) / float(P) * 100.0, 2)
 
   os.makedirs('./out/figures', exist_ok = True)
-  plt.plot(range(M + 1), percent_error)
+  plt.plot(range(M + 1), percent_error, label = f"$y_{target}$")
   plt.xlabel('$m$')
   plt.ylabel('percent error')
+  plt.legend()
   figure_dir = './out/figures/' + name
   figure_location = figure_dir + '/percent_error_target_' + target + '.pdf'
   os.makedirs(figure_dir, exist_ok = True)
   plt.savefig(figure_location)
   print(f"exporting the percent error of target {target} vs. boosting round plot at")
   print(f"  \'{figure_location}\'")
-  plt.clf()
+#  plt.clf()
 
   return 0
 
